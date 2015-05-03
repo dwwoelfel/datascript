@@ -34,6 +34,14 @@
                {:name "Ivan" :email "@1" :age 35}))
         (is (= (tempids tx)
                {-1 1}))))
+
+    (testing "upsert with tempid in list format"
+      (let [tx (d/with db [[:db/add -1 :age 35]
+                           [:db/add -1 :name "Ivan"]])]
+        (is (= (touched tx 1)
+               {:name "Ivan" :email "@1" :age 35}))
+        (is (= (tempids tx)
+               {-1 1}))))    
     
     (testing "upsert by 2 attrs with tempid"
       (let [tx (d/with db [{:db/id -1 :name "Ivan" :email "@1" :age 35}])]
